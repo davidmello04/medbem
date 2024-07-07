@@ -149,7 +149,7 @@ export default {
     loginForm: {
       email: "",
       password: "",
-      userType: "Médico", // Valor padrão
+      userType: "Médico",
     },
     registerForm: {
       name: "",
@@ -165,7 +165,7 @@ export default {
     async login() {
       try {
         const response = await http.post(
-          "URL_DO_BACKEND/login",
+          "http://localhost:3333",
           this.loginForm
         );
         console.log("Login bem-sucedido:", response.data);
@@ -176,7 +176,7 @@ export default {
     async register() {
       try {
         const response = await http.post(
-          "URL_DO_BACKEND/register",
+          "http://localhost:3333",
           this.registerForm
         );
         console.log("Cadastro bem-sucedido:", response.data);
