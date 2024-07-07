@@ -7,8 +7,8 @@
       rounded="lg"
     >
       <div v-if="isLoginForm">
+        <!-- Login Form -->
         <div class="text-subtitle-1 text-medium-emphasis">Email</div>
-
         <v-text-field
           v-model="loginForm.email"
           density="compact"
@@ -21,7 +21,6 @@
           class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
         >
           Senha
-
           <a
             class="text-caption text-decoration-none text-blue"
             href="#"
@@ -31,7 +30,6 @@
             Esqueceu a senha?</a
           >
         </div>
-
         <v-text-field
           v-model="loginForm.password"
           :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
@@ -42,13 +40,6 @@
           variant="outlined"
           @click:append-inner="visible = !visible"
         ></v-text-field>
-
-        <div class="text-subtitle-1 text-medium-emphasis">Tipo de Usuário</div>
-        <v-select
-          clearable
-          label="Selecionar"
-          :items="['Médico(a)', 'Secretátio(a)']"
-        ></v-select>
 
         <v-btn
           class="mb-8"
@@ -73,8 +64,9 @@
       </div>
 
       <div v-else>
+        <!-- Register Form -->
+        <div class="register-title">Cadastro de Médicos</div>
         <div class="text-subtitle-1 text-medium-emphasis">Nome</div>
-
         <v-text-field
           v-model="registerForm.name"
           density="compact"
@@ -84,7 +76,6 @@
         ></v-text-field>
 
         <div class="text-subtitle-1 text-medium-emphasis">Registro</div>
-
         <v-text-field
           v-model="registerForm.registration"
           density="compact"
@@ -94,7 +85,6 @@
         ></v-text-field>
 
         <div class="text-subtitle-1 text-medium-emphasis">Email</div>
-
         <v-text-field
           v-model="registerForm.email"
           density="compact"
@@ -104,7 +94,6 @@
         ></v-text-field>
 
         <div class="text-subtitle-1 text-medium-emphasis">Senha</div>
-
         <v-text-field
           v-model="registerForm.password"
           :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
@@ -142,54 +131,66 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  data: () => ({
-    visible: false,
-    isLoginForm: true,
-    loginForm: {
-      email: "",
-      password: "",
-      userType: "Médico",
-    },
-    registerForm: {
-      name: "",
-      registration: "",
-      email: "",
-      password: "",
-    },
-  }),
+  data() {
+    return {
+      visible: false,
+      isLoginForm: true,
+      loginForm: {
+        email: "",
+        password: "",
+        userType: "Médico",
+      },
+      registerForm: {
+        name: "",
+        registration: "",
+        email: "",
+        password: "",
+      },
+    };
+  },
   methods: {
     toggleForm() {
       this.isLoginForm = !this.isLoginForm;
     },
     async login() {
-      try {
-        const response = await http.post(
-          "http://localhost:3333",
-          this.loginForm
-        );
-        console.log("Login bem-sucedido:", response.data);
-      } catch (error) {
-        console.error("Erro ao fazer login:", error);
-      }
+      // try {
+      //   const response = await axios.post(
+      //     "http://localhost:3333/login",
+      //     this.loginForm
+      //   );
+      //   console.log("Login bem-sucedido:", response.data);
+      // } catch (error) {
+      //   console.error("Erro ao fazer login:", error);
+      // }
     },
     async register() {
-      try {
-        const response = await http.post(
-          "http://localhost:3333",
-          this.registerForm
-        );
-        console.log("Cadastro bem-sucedido:", response.data);
-      } catch (error) {
-        console.error("Erro ao fazer cadastro:", error);
-      }
+      // try {
+      //   const response = await axios.post(
+      //     "http://localhost:3333/register",
+      //     this.registerForm
+      //   );
+      //   console.log("Cadastro bem-sucedido:", response.data);
+      // } catch (error) {
+      //   console.error("Erro ao fazer cadastro:", error);
+      // }
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .top {
-  margin-top: 9em;
+  margin: 8em 0;
+}
+
+.register-title {
+  margin-bottom: 1em;
+  color: #0693e3;
+  font-size: 1.7em;
+  font-weight: bold;
+  text-align: center;
 }
 </style>
