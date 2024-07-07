@@ -14,12 +14,12 @@
               >
                 <v-card class="patient-card">
                   <v-card-text>
-                    <v-list-item-content class="patient-info">
+                    <v-list-item class="patient-info">
                       <v-list-item-title>{{ paciente.name }}</v-list-item-title>
                       <v-list-item-subtitle>
                         Número da Carteira: {{ paciente.cardId }}
                       </v-list-item-subtitle>
-                    </v-list-item-content>
+                    </v-list-item>
                     <div class="patient-actions">
                       <v-btn color="blue" small @click="editPaciente(index)">
                         Editar
@@ -89,27 +89,56 @@ export default {
   },
   methods: {
     async getPatients() {
-      const response = await axios.get("http://localhost:3333/patients");
-      this.listaPacientes = response.data;
+      try {
+        const response = await axios.get("http://localhost:3333/patients");
+        this.listaPacientes = response.data;
+      } catch (error) {
+        this.handleError("Erro ao buscar pacientes", error);
+      }
     },
+
     async editPaciente(index) {
-      this.pacienteEdicao = { ...this.listaPacientes[index] };
-      this.indexEdicao = this.pacienteEdicao.id;
-      this.dialogEditarPaciente = true;
+      try {
+        this.pacienteEdicao = { ...this.listaPacientes[index] };
+        this.indexEdicao = this.pacienteEdicao.id;
+        this.dialogEditarPaciente = true;
+      } catch (error) {
+        this.handleError("Erro ao editar o paciente", error);
+      }
     },
+
     async salvarEdicaoPaciente() {
-      await axios.put(
-        `http://localhost:3333/patients/${this.indexEdicao}`,
-        this.pacienteEdicao
-      );
-      await this.getPatients();
-      this.dialogEditarPaciente = false;
+      try {
+        await axios.put(
+          `http://localhost:3333/patients/${this.indexEdicao}`,
+          this.pacienteEdicao
+        );
+        await this.getPatients();
+        this.dialogEditarPaciente = false;
+      } catch (error) {
+        this.handleError("Erro ao salvar a edição do paciente", error);
+      }
     },
+
     async deletePaciente(index) {
       const patient = { ...this.listaPacientes[index] };
-      await axios.delete(`http://localhost:3333/patients/${patient.id}`);
-      await this.getPatients();
-      this.dialogEditarPaciente = false;
+      const confirmed = confirm(
+        `Tem certeza que deseja excluir o paciente ${patient.name}?`
+      );
+
+      if (confirmed) {
+        try {
+          await axios.delete(`http://localhost:3333/patients/${patient.id}`);
+          await this.getPatients();
+        } catch (error) {
+          this.handleError("Erro ao excluir o paciente", error);
+        }
+      }
+    },
+
+    handleError(message, error) {
+      this.error = message;
+      console.error(message, error);
     },
   },
 };

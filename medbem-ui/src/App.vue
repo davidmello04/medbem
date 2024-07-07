@@ -1,21 +1,19 @@
 <template>
   <v-app class="app">
     <v-app-bar class="main" app>
-      <v-img src="./assets/logoMed.png" class="img"></v-img>
-      <v-btn class="btn"
-        ><router-link to="/" class="link">Home</router-link></v-btn
-      >
-      <v-btn class="btn"
-        ><router-link to="/doctors" class="link">Doctors</router-link></v-btn
-      >
-      <v-btn
-        ><router-link to="/secretaries" class="link"
-          >Secretaries</router-link
-        ></v-btn
-      >
-      <v-btn
-        ><router-link to="/patients" class="link">Patients</router-link></v-btn
-      >
+      <v-img src="./assets/logoMed.png" class="img" max-width="200"></v-img>
+      <v-btn class="btn">
+        <router-link to="/" class="link">Home</router-link>
+      </v-btn>
+      <v-btn class="btn">
+        <router-link to="/doctors" class="link">Doctors</router-link>
+      </v-btn>
+      <v-btn class="btn">
+        <router-link to="/secretaries" class="link">Secretaries</router-link>
+      </v-btn>
+      <v-btn class="btn">
+        <router-link to="/patients" class="link">Patients</router-link>
+      </v-btn>
     </v-app-bar>
     <router-view />
   </v-app>
@@ -30,9 +28,12 @@
 
 .main {
   padding: 1em;
+  display: flex;
+  align-items: center;
 }
 
 .btn {
+  margin-left: 1em;
 }
 
 .link {
@@ -42,6 +43,5 @@
 
 .img {
   margin-right: 4em;
-  max-width: 200px;
 }
 </style>

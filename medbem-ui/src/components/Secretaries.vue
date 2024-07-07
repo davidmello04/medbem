@@ -26,10 +26,10 @@
         <v-card-title>Cadastrar Paciente</v-card-title>
         <v-card-text>
           <v-form>
-            <v-text-field label="Nome" v-model="paciente.nome"></v-text-field>
+            <v-text-field label="Nome" v-model="paciente.name"></v-text-field>
             <v-text-field
               label="Número da Carteira"
-              v-model="paciente.numeroCarteira"
+              v-model="paciente.cardId"
             ></v-text-field>
           </v-form>
         </v-card-text>
@@ -38,7 +38,7 @@
           <v-btn color="green darken-1" text @click="dialogPaciente = false"
             >Fechar</v-btn
           >
-          <v-btn color="blue darken-1" text @click="cadastrarPaciente"
+          <v-btn color="blue darken-1" text @click="registerPatient"
             >Cadastrar</v-btn
           >
         </v-card-actions>
@@ -56,10 +56,10 @@
               :key="index"
             >
               <v-list-item-content>
-                <v-list-item-title>{{ paciente.nome }}</v-list-item-title>
+                <v-list-item-title>{{ paciente.name }}</v-list-item-title>
                 <v-list-item-subtitle
                   >Número da Carteira:
-                  {{ paciente.numeroCarteira }}</v-list-item-subtitle
+                  {{ paciente.cardId }}</v-list-item-subtitle
                 >
               </v-list-item-content>
             </v-list-item>
@@ -80,20 +80,21 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data: () => ({
     dialogPaciente: false,
     dialogListaPacientes: false,
     paciente: {
-      nome: "",
-      numeroCarteira: "",
+      name: "",
+      cardId: "",
     },
-    listaPacientes: [
-      { nome: "Paciente 1", numeroCarteira: "123456" },
-      { nome: "Paciente 2", numeroCarteira: "789101" },
-      { nome: "Paciente 3", numeroCarteira: "112131" },
-    ],
+    listaPacientes: [],
   }),
+  mounted() {
+    this.getPatients();
+  },
   methods: {
     showModal(type) {
       if (type === "paciente") {
@@ -102,10 +103,23 @@ export default {
         this.dialogListaPacientes = true;
       }
     },
-    cadastrarPaciente() {
-      // Cadastrar paciente
-      console.log("Paciente cadastrado:", this.paciente);
-      this.dialogPaciente = false;
+    async getPatients() {
+      try {
+        const response = await axios.get("http://localhost:3333/patients");
+        this.listaPacientes = response.data;
+      } catch (error) {
+        this.handleError("Erro ao buscar pacientes", error);
+      }
+    },
+    async registerPatient() {
+      try {
+        await axios.post("http://localhost:3333/patients", this.paciente);
+        await this.getPatients();
+        this.dialogPaciente = false;
+      } catch (error) {
+        this.error = "Erro ao cadastrar o paciente";
+        console.error(error);
+      }
     },
   },
 };
