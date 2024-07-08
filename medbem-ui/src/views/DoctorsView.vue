@@ -5,7 +5,7 @@
         <RegisterConsult />
       </v-col>
       <v-col cols="12" md="6">
-        <Patient />
+        <RegisterPatient />
       </v-col>
       <v-col cols="12" md="6">
         <ManageSecretaries />
@@ -19,14 +19,14 @@
 
 <script>
 import RegisterConsult from "@/components/Doctor/RegisterConsult.vue";
-import Patient from "@/components/Doctor/Patient.vue";
+import RegisterPatient from "@/components/RegisterPatient.vue";
 import ManageSecretaries from "@/components/Doctor/ManageSecretaries.vue";
 import Consults from "@/components/Doctor/Consults.vue";
 
 export default {
   components: {
     RegisterConsult,
-    Patient,
+    RegisterPatient,
     ManageSecretaries,
     Consults,
   },

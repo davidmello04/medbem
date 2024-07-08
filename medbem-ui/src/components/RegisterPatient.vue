@@ -1,24 +1,18 @@
 <template>
   <v-col cols="12" class="mb-4">
-    <v-card @click="showModal('paciente')" class="card-action">
+    <v-card @click="showModal" class="card-action">
       <v-card-title class="title">Cadastrar Paciente</v-card-title>
       <v-card-text class="description">
         Adicione um novo paciente ao sistema com suas informações detalhadas.
       </v-card-text>
     </v-card>
 
-    <!-- Modal Cadastrar/Editar Paciente -->
+    <!-- Modal Cadastrar Paciente -->
     <v-dialog v-model="dialogPaciente" max-width="900px">
       <v-card>
-        <v-card-title>{{
-          pacienteEditando ? "Editar Paciente" : "Cadastrar Paciente"
-        }}</v-card-title>
+        <v-card-title>Cadastrar Paciente</v-card-title>
         <v-card-text>
-          <v-form
-            @submit.prevent="
-              pacienteEditando ? atualizarPaciente() : cadastrarPaciente()
-            "
-          >
+          <v-form @submit.prevent="registerPatient">
             <v-row>
               <v-col cols="12" md="6">
                 <v-text-field
@@ -32,13 +26,10 @@
                   v-model="paciente.numeroCarteira"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" v-if="pacienteEditando">
-                <v-textarea label="Notas" v-model="paciente.notas"></v-textarea>
-              </v-col>
             </v-row>
-            <v-btn color="blue darken-1" text small type="submit">{{
-              pacienteEditando ? "Salvar Paciente" : "Cadastrar Paciente"
-            }}</v-btn>
+            <v-btn color="blue darken-1" text small type="submit">
+              Cadastrar Paciente
+            </v-btn>
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -58,26 +49,24 @@ export default {
   data() {
     return {
       dialogPaciente: false,
-      pacienteEditando: false,
       paciente: {
         nome: "",
         numeroCarteira: "",
-        notas: "",
       },
     };
   },
   methods: {
-    showModal(type) {
+    showModal() {
       this.dialogPaciente = true;
-      this.pacienteEditando = false;
     },
-    cadastrarPaciente() {
+    registerPatient() {
       console.log("Paciente cadastrado", this.paciente);
       this.dialogPaciente = false;
-    },
-    atualizarPaciente() {
-      console.log("Paciente atualizado", this.paciente);
-      this.dialogPaciente = false;
+      // Limpar os campos do formulário após o cadastro
+      this.paciente = {
+        nome: "",
+        numeroCarteira: "",
+      };
     },
   },
 };

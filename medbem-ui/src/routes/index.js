@@ -2,7 +2,7 @@ import { createMemoryHistory, createRouter } from "vue-router";
 
 import DoctorsView from "../views/DoctorsView.vue";
 import PatientsList from "../components/PatientsList.vue";
-import Secretaries from "../components/Secretaries.vue";
+import Secretaries from "@/components/Secretaries.vue";
 import Home from "@/components/Home.vue";
 
 const routes = [
