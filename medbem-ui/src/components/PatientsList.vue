@@ -55,10 +55,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialogEditarPaciente = false"
+          <v-btn color="red darken-1" text @click="dialogEditarPaciente = false"
             >Fechar</v-btn
           >
           <v-btn color="blue darken-1" text @click="salvarEdicaoPaciente"

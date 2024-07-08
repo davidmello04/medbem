@@ -17,13 +17,13 @@
               <v-col cols="12" md="6">
                 <v-text-field
                   label="Nome"
-                  v-model="paciente.nome"
+                  v-model="paciente.name"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6">
                 <v-text-field
                   label="Número da Carteira"
-                  v-model="paciente.numeroCarteira"
+                  v-model="paciente.cardId"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -44,14 +44,16 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Patient",
   data() {
     return {
       dialogPaciente: false,
       paciente: {
-        nome: "",
-        numeroCarteira: "",
+        name: "",
+        cardId: "",
       },
     };
   },
@@ -59,14 +61,17 @@ export default {
     showModal() {
       this.dialogPaciente = true;
     },
-    registerPatient() {
-      console.log("Paciente cadastrado", this.paciente);
-      this.dialogPaciente = false;
-      // Limpar os campos do formulário após o cadastro
-      this.paciente = {
-        nome: "",
-        numeroCarteira: "",
-      };
+    async registerPatient() {
+      try {
+        await axios.post("http://localhost:3333/patients", this.paciente);
+        this.dialogPaciente = false;
+        this.paciente = {
+          name: "",
+          cardId: "",
+        };
+      } catch {
+        console.log("Erro ao cadastrar o paciente");
+      }
     },
   },
 };

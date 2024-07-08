@@ -61,7 +61,7 @@
                     v-for="(secretario, index) in listaSecretarios"
                     :key="index"
                   >
-                    <v-list-item-content>
+                    <v-list-item>
                       <v-list-item-title>{{
                         secretario.nome
                       }}</v-list-item-title>
@@ -69,7 +69,7 @@
                         >Data de Admissão:
                         {{ secretario.dataAdmissao }}</v-list-item-subtitle
                       >
-                    </v-list-item-content>
+                    </v-list-item>
                     <v-list-item-action>
                       <v-btn
                         text

@@ -1,6 +1,6 @@
 <template>
   <v-col cols="12" class="mb-4">
-    <v-card @click="showModal('consulta')" class="card-action">
+    <v-card @click="showModal" class="card-action">
       <v-card-title class="title">Registrar Consulta</v-card-title>
       <v-card-text class="description">
         Comece uma nova consulta médica e registre informações do paciente.
@@ -15,42 +15,42 @@
           <div v-if="!consultaFormVisible">
             <v-list>
               <v-list-item
-                v-for="(paciente, index) in pacientesNaoConsultados"
+                v-for="(paciente, index) in listaPacientes"
                 :key="index"
                 @click="iniciarConsulta(paciente)"
               >
-                <v-list-item-content>
+                <v-list-item>
                   <v-list-item-title>{{ paciente.name }}</v-list-item-title>
                   <v-list-item-subtitle>
                     Número da Carteira: {{ paciente.cardId }}
                   </v-list-item-subtitle>
-                </v-list-item-content>
+                </v-list-item>
               </v-list-item>
             </v-list>
           </div>
           <v-form v-else>
             <v-text-field
               label="Paciente atendido"
-              v-model="consulta.pacienteNome"
+              v-model="consult.patientId"
               disabled
             ></v-text-field>
             <v-text-field
               label="Médico"
-              v-model="consulta.medico"
+              v-model="consult.doctorId"
             ></v-text-field>
             <v-text-field
               label="Data de entrada"
-              v-model="consulta.dataEntrada"
+              v-model="consult.entryDate"
               type="date"
             ></v-text-field>
             <v-text-field
               label="Data de saída"
-              v-model="consulta.dataSaida"
+              v-model="consult.outDate"
               type="date"
             ></v-text-field>
             <v-textarea
               label="Notas sobre o atendimento"
-              v-model="consulta.notas"
+              v-model="consult.note"
             ></v-textarea>
           </v-form>
         </v-card-text>
@@ -64,7 +64,7 @@
             text
             small
             v-if="consultaFormVisible"
-            @click="salvarConsulta"
+            @click="createConsult"
             >Salvar</v-btn
           >
         </v-card-actions>
@@ -74,37 +74,62 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Consult",
   data() {
     return {
       dialogConsulta: false,
       consultaFormVisible: false,
-      consulta: {
-        pacienteNome: "",
-        medico: "",
-        dataEntrada: "",
-        dataSaida: "",
-        notas: "",
+      consult: {
+        entryDate: "",
+        outDate: "",
+        note: "",
+        doctorId: null,
+        patientId: null,
       },
-      pacientesNaoConsultados: [
-        { name: "Carlos Jr", cardId: "123456" },
-        { name: "Luiza Smith", cardId: "789012" },
-      ],
+      listaPacientes: [],
     };
   },
+  mounted() {
+    this.getPatients();
+  },
   methods: {
-    showModal(type) {
+    showModal() {
       this.dialogConsulta = true;
       this.consultaFormVisible = false;
     },
-    iniciarConsulta(paciente) {
-      this.consulta.pacienteNome = paciente.name;
-      this.consultaFormVisible = true;
+    async getPatients() {
+      try {
+        const response = await axios.get("http://localhost:3333/patients");
+        this.listaPacientes = response.data;
+      } catch (error) {
+        console.error("Erro ao buscar pacientes", error);
+      }
     },
-    salvarConsulta() {
-      console.log("Consulta salva", this.consulta);
-      this.dialogConsulta = false;
+    async createConsult() {
+      try {
+        const response = await axios.post(
+          "http://localhost:3333/consults",
+          this.consult
+        );
+        console.log("Consulta salva", response.data);
+        this.dialogConsulta = false;
+        this.consult = {
+          entryDate: "",
+          outDate: "",
+          note: "",
+          doctorId: "",
+          patientId: "",
+        };
+      } catch (error) {
+        console.error("Erro ao cadastrar consulta", error);
+      }
+    },
+    iniciarConsulta(paciente) {
+      this.consult.patientId = paciente.id;
+      this.consultaFormVisible = true;
     },
   },
 };

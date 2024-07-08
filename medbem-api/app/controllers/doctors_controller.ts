@@ -75,6 +75,7 @@ export default class DoctorsController {
     }
   }
 
+  // Métodos para Médicos
   async createDoctor({ request, response }: HttpContext) {
     const data = request.only(['name', 'register'])
     const doctor: Doctor = await Doctor.create(data)
