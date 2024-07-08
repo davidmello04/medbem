@@ -19,14 +19,7 @@ export default class DoctorsController {
   async updateConsult({ params, request, response }: HttpContext) {
     try {
       const consult = await Consults.findOrFail(params.id)
-      const data = request.only([
-        'patientName',
-        'birthDate',
-        'doctorName',
-        'entryDate',
-        'outDate',
-        'note',
-      ])
+      const data = request.only(['entryDate', 'outDate', 'note', 'doctorId', 'patientId'])
       consult.merge(data)
       await consult.save()
       return response.json(consult)
