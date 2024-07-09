@@ -1,7 +1,6 @@
 import router from '@adonisjs/core/services/router'
 const DoctorsController = () => import('#controllers/doctors_controller')
 
-// Rotas para médicos (DoctorsController)
 router.post('/consults', [DoctorsController, 'createConsult'])
 router.get('/consults', [DoctorsController, 'getAllConsults'])
 router.put('/consults/:id', [DoctorsController, 'updateConsult'])

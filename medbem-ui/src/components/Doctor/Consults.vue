@@ -179,7 +179,7 @@ export default {
     async deleteConsult(id) {
       try {
         await axios.delete(`http://localhost:3333/consults/${id}`);
-        this.dialogEditConsult = false;
+        await this.getConsults();
       } catch (error) {
         console.error("Erro ao excluir consulta", error);
       }
@@ -194,8 +194,8 @@ export default {
           `http://localhost:3333/consults/${this.currentConsult.id}`,
           this.currentConsult
         );
-        console.log(this.currentConsult.id);
         this.dialogEditConsult = false;
+        await this.getConsults();
       } catch (error) {
         console.error("Erro ao atualizar consulta", error);
       }

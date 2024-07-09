@@ -3,16 +3,16 @@
     <v-app-bar class="main" app>
       <v-img src="./assets/logoMed.png" class="img" max-width="200"></v-img>
       <v-btn class="btn">
-        <router-link to="/" class="link">Home</router-link>
+        <router-link to="/" class="link">Início</router-link>
       </v-btn>
       <v-btn class="btn">
-        <router-link to="/doctors" class="link">Doctors</router-link>
+        <router-link to="/doctors" class="link">Médicos</router-link>
       </v-btn>
       <v-btn class="btn">
-        <router-link to="/secretaries" class="link">Secretaries</router-link>
+        <router-link to="/secretaries" class="link">Secretários</router-link>
       </v-btn>
       <v-btn class="btn">
-        <router-link to="/patients" class="link">Patients</router-link>
+        <router-link to="/patients" class="link">Pacientes</router-link>
       </v-btn>
     </v-app-bar>
     <router-view />
